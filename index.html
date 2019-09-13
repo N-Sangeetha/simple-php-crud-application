@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>New Crud App</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+<header><h1><i class="fa fa-paper-plane-o mr-3" aria-hidden="true"></i>let's do crud operations in php!</h1></header>
+<div class="flex-container">
+	
+ 	<div class="flex-item ">
+ 		<h3>#form</h3>
+		<form>
+			<input type="hidden" name="sno" id="sno">
+			<div class="form-group row mx-auto mt-3">
+				<label for="name" class="col-sm-2 col-form-label">Name:</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name">
+				</div>
+			</div>
+			<div class="form-group row mx-auto">
+				<label for="age" class="col-sm-2 col-form-label">Age:</label>
+				<div class="col-sm-10">
+				  <input type="number" class="form-control" name="age" id="age" placeholder="Enter your age">
+				</div>
+			</div>
+			<div class="form-group row mx-auto">
+				<label for="email" class="col-sm-2 col-form-label">Email:</label>
+				<div class="col-sm-10">
+				  <input type="email" class="form-control" name="email" id="email" placeholder="Enter your Email">
+				</div>
+			</div>
+			<div class="form-group">
+			<div class="row mx-auto">
+			  <div class="col-form-label col-sm-2 pt-0">Gender:</div>
+			  <div class="col-sm-10">
+				<div class="form-check">
+				  <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+				  <label class="form-check-label" for="male">
+					Male
+				  </label>
+				</div>
+				<div class="form-check">
+				  <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+				  <label class="form-check-label" for="female">
+					Female
+				  </label>
+				</div>
+			   </div>
+			</div>
+		    </div>
+		    <div class="form-group row mx-auto">
+				<div class="col-sm-2">Skills:</div>
+				<div class="col-sm-10">
+				  <div class="form-check">
+					<input class="form-check-input" type="checkbox" id="javascript" name="skills[]" value="javascript">
+					<label class="form-check-label" for="javascript">
+					  Javascript
+					</label>
+				  </div>
+				  <div class="form-check">
+					<input class="form-check-input" type="checkbox" id="php" name="skills[]" value="php">
+					<label class="form-check-label" for="php">
+					  Php
+					</label>
+				  </div>
+				  <div class="form-check">
+					<input class="form-check-input" type="checkbox" id="pdo" name="skills[]" value="pdo">
+					<label class="form-check-label" for="pdo">
+					  PDO
+					</label>
+				  </div>
+				</div>
+			</div>
+			<div class="form-group row mx-auto buttonalign">
+<!--				<div class="col-sm-6">-->
+				  <button type="submit" class="btn mx-auto" name="add" id="add">Add</button>
+<!--				</div>-->
+<!--				<div class="col-sm-6">-->
+				  <button type="submit" class="btn mx-auto" name="update" id="update">Update</button>
+<!--				</div>-->
+			</div>
+		</form>
+	</div>
+ 	<div class="flex-item"><i class="fa fa-bolt" aria-hidden="true"></i></div>
+	 <div class="flex-item">
+	 	<table class="table table-striped table-dark mx-auto" id="table">
+	 		<thead>
+	 		<tr>
+	 		<th>SNO</th>
+	 		<th>NAME</th>
+	 		<th>AGE</th>
+	 		<th>EMAIL</th>
+	 		<th>GENDER</th>
+	 		<th>SKILLS</th>
+	 		<th>EDIT</th>
+	 		<th>DELETE</th>
+	 		</tr>
+	 		</thead>
+	 		<tbody>
+	 		</tbody>
+	 	</table>
+	 </div>
+</div>
+<script>
+	$( document ).ready(function(){
+		$("#update").hide();
+		$(window).on("load",function(e){
+			e.preventDefault();
+//			alert("display");
+			$.ajax({
+				url : "display.php",
+				dataType : "JSON",
+				type : "POST",
+				success : function(data){
+//					console.log(data[1].sno);
+					for(var key in data){
+					var content = '<tr><td>' + data[key].sno + '</td><td>' + data[key].name + '</td><td>' + data[key].age + '</td><td>' + data[key].email + '</td><td>' + data[key].gender + '</td><td>' + data[key].skills + '</td><td><button name="edit" id="edit" data-id='+data[key].sno+'>EDIT</button></td><td><button name="delete" id="delete" data-id='+data[key].sno+'>DELETE</button></td></tr>';
+					$("#table").append(content);
+				}}
+		});
+	});
+		$("#add").on("click",function(e){
+			e.preventDefault();
+//			console.log($('form').serialize());
+			$.ajax({
+				url : "add.php",
+				dataType : "JSON",
+				type : "POST",
+				data : $('form').serialize(),
+				success : function(data){
+//					alert(data);
+					var content = '<tr><td>' + data.sno + '</td><td>' + data.name + '</td><td>' + data.age + '</td><td>' + data.email + '</td><td>'
+						 + data.gender + '</td><td>' + data.skills + '</td><td><button name="edit" id="edit" data-id='+data.sno+'>EDIT</button></td><td><button name="delete" id="delete" data-id='+data.sno+'>DELETE</button></td></tr>';
+					$("#table").append(content);
+				}
+				
+			});
+		});
+		
+		$(document).on("click","#edit", function(e){
+			e.preventDefault();
+			$id = $(this).attr("data-id");
+//			alert($id);
+			$("#update").show();
+			$.ajax({
+				url : "update.php",
+				dataType : "JSON",
+				type : "POST",
+				data : {sno : $id},
+				success : function(data){
+//					console.log(data.skills);
+//					$vara = data.name;
+					$("#sno").val(data.sno);
+					$("#name").val(data.name);
+					$("#age").val(data.age);
+					$("#email").val(data.email);
+					$("#gender").val(data.gender);
+					if(jQuery.inArray("javascript",data.skills) !== -1){
+					$("#javascript").prop("checked",true);
+					}
+					if(jQuery.inArray("php",data.skills) !== -1){
+					$("#php").prop("checked",true);
+					}
+					if(jQuery.inArray("pdo",data.skills) !== -1){
+					$("#pdo").prop("checked",true);
+					}
+				}
+			});
+			
+		});
+		$(document).on("click","#update", function(e){
+			e.preventDefault();
+//			alert("hello");
+			$.ajax({
+				url : "update.php",
+				dataType : "JSON",
+				type : "POST",
+				data : $('form').serialize(),
+				success : function(data){
+//					console.log(data);
+					$( "table tbody" ).html( "" );
+					$("#table").append(data);
+					
+				}
+			});
+		});
+		
+		$(document).on("click","#delete", function(e){
+			e.preventDefault();
+			$id = $(this).attr("data-id");
+			$click_del = $(this);
+			$.ajax({
+				url : "delete.php",
+				dataType : "html",
+				type : "GET",
+				data : {sno:$id},
+				success : function(){
+//					alert("successfully deleted");
+					$($click_del).parent().parent().remove();
+					}
+				});
+			});
+		
+	});
+</script>	
+	
+	
+	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>	
+</body>
+</html>

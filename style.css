@@ -1,0 +1,80 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+header{
+	position:absolute;
+	z-index: 2;
+	width: 100%;
+	text-align: center;
+}
+
+.flex-container{
+	position:relative;
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	height: 100vh;
+	background: url("img/cup-of-coffee.jpg") no-repeat center center;
+	background-size: cover;
+
+}
+.flex-item{
+	width: 500px;
+	height: 500px;
+	background: gray;
+	opacity:0.9;
+	margin: auto;
+	z-index:5;
+	border-radius: 10px;
+}
+.flex-item form button{
+	width: 100px;
+	background: hotpink;
+	border: none;
+}
+.flex-item:nth-child(2){
+	background: none;
+	width: auto;
+	height: auto;
+}
+.flex-item:nth-child(3){
+	width: 700px;
+}
+
+.flex-item .fa-bolt{
+	font-size: 150px;
+	color: hotpink;
+
+}
+h3,h1{
+	text-align: center;
+	text-transform: capitalize;
+	color: black;
+}
+
+#table{
+	margin-top: 3px;
+	max-width:700px;
+}
+
+#table th{
+	color: hotpink;
+}
+
+#table th,td{
+	padding: 10px 0px;
+	text-align: center;
+}
+#table button{
+ 	border-radius: 5px;
+	color: white;
+	background: none;
+	border:2px solid hotpink;
+}
+form{
+	font-size: 20px;
+	color: white;
+}
+
